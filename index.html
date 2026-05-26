@@ -464,7 +464,8 @@ section{padding:7rem 2rem;max-width:900px;margin:0 auto;position:relative;z-inde
 .carousel-counter{text-align:center;margin-top:.7rem;font-size:10px;letter-spacing:.35em;color:var(--taupe);text-transform:uppercase}
 
 /* ── DETAILS CARDS ── */
-.details-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:3rem}
+.details-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:3rem;justify-items:center}
+.details-grid .detail-card{width:100%;text-align:center}
 .detail-card{
   background:linear-gradient(145deg,rgba(185,215,165,.75) 0%,rgba(160,195,138,.5) 100%);
   border:1px solid rgba(200,148,26,.25);border-radius:20px;
@@ -578,6 +579,29 @@ footer{text-align:center;padding:3rem 2rem 6rem;border-top:1px solid rgba(200,14
 
 /* body bg after envelope opens */
 body.page-open{background:#b8cca8}
+
+/* ── SCRATCH TO REVEAL ── */
+.scratch-wrap{
+  position:relative;display:flex;flex-direction:column;align-items:center;
+  width:180px;margin:0 auto;
+}
+.scratch-answer{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:180px;height:72px;
+  font-family:'Cormorant Garamond',serif;
+}
+#scratchCanvas{
+  position:absolute;top:0;left:0;
+  border-radius:10px;cursor:crosshair;
+  touch-action:none;
+}
+.scratch-hint{
+  font-size:9px;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--gold-dark);margin-top:.5rem;
+  animation:blink 2s ease-in-out infinite;
+  transition:opacity .4s;
+}
+.scratch-hint.done{opacity:0;pointer-events:none}
 
 @media(max-width:640px){.countdown-grid{gap:8px}.detail-card{padding:1.8rem 1.2rem}}
 </style>
@@ -954,8 +978,14 @@ body.page-open{background:#b8cca8}
         </svg>
       </div>
       <span class="detail-label">Dress code</span>
-      <span class="detail-value">Party Wear</span>
-      <span class="detail-sub">Glam up · Look your best</span>
+      <div class="scratch-wrap" id="scratchWrap">
+        <div class="scratch-answer" id="scratchAnswer">
+          <span class="detail-value" style="font-size:1.6rem;">Party Wear</span>
+          <span class="detail-sub" style="margin-top:.4rem;">Glam up · Look your best</span>
+        </div>
+        <canvas id="scratchCanvas" width="180" height="72"></canvas>
+        <p class="scratch-hint" id="scratchHint">✦ scratch to reveal ✦</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1158,6 +1188,71 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   window.addEventListener('resize',()=>ui(false));
   slides[0].classList.add('active');
   ui(false);
+})();
+
+// ── Scratch to Reveal
+(function(){
+  const canvas = document.getElementById('scratchCanvas');
+  const ctx    = canvas.getContext('2d');
+  const hint   = document.getElementById('scratchHint');
+  let scratching = false;
+  let revealed   = false;
+
+  // Draw the scratchable surface
+  function drawScratch(){
+    const g = ctx.createLinearGradient(0,0,180,72);
+    g.addColorStop(0,'#4a7a4a');
+    g.addColorStop(.5,'#5a8a5a');
+    g.addColorStop(1,'#3a6a3a');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.roundRect(0,0,180,72,10);
+    ctx.fill();
+
+    // Gold question mark overlay
+    ctx.fillStyle='rgba(200,148,26,0.18)';
+    ctx.beginPath();ctx.roundRect(0,0,180,72,10);ctx.fill();
+
+    ctx.font='bold 32px Cormorant Garamond, serif';
+    ctx.fillStyle='rgba(200,148,26,0.55)';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('?  Dress Code  ?',90,36);
+  }
+  drawScratch();
+
+  function getPos(e){
+    const r=canvas.getBoundingClientRect();
+    if(e.touches) return {x:e.touches[0].clientX-r.left, y:e.touches[0].clientY-r.top};
+    return {x:e.clientX-r.left, y:e.clientY-r.top};
+  }
+  function scratch(e){
+    if(!scratching||revealed)return;
+    const {x,y}=getPos(e);
+    ctx.globalCompositeOperation='destination-out';
+    ctx.beginPath();
+    ctx.arc(x,y,22,0,Math.PI*2);
+    ctx.fill();
+    checkRevealed();
+  }
+  function checkRevealed(){
+    const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    let clear=0;
+    for(let i=3;i<data.length;i+=4) if(data[i]<128) clear++;
+    if(clear/( canvas.width*canvas.height)>.55 && !revealed){
+      revealed=true;
+      canvas.style.transition='opacity .6s ease';
+      canvas.style.opacity='0';
+      hint.classList.add('done');
+      setTimeout(()=>canvas.style.display='none',650);
+    }
+  }
+
+  canvas.addEventListener('mousedown', e=>{scratching=true;scratch(e);});
+  canvas.addEventListener('mousemove', scratch);
+  canvas.addEventListener('mouseup',   ()=>scratching=false);
+  canvas.addEventListener('touchstart',e=>{scratching=true;scratch(e);},{passive:true});
+  canvas.addEventListener('touchmove', e=>{e.preventDefault();scratch(e);},{passive:false});
+  canvas.addEventListener('touchend',  ()=>scratching=false);
 })();
 
 // ── Music
