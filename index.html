@@ -604,7 +604,7 @@ body.page-open{background:#b8cca8}
   animation:blink 2s ease-in-out infinite;
   transition:opacity .4s;
 }
-.scratch-hint.done{opacity:0;pointer-events:none}
+.scratch-hint.done{opacity:0;pointer-events:none;height:0;margin:0;overflow:hidden}
 
 @media(max-width:640px){.countdown-grid{gap:8px}.detail-card{padding:1.8rem 1.2rem}}
 </style>
@@ -1246,11 +1246,11 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
       canvas.style.transition='opacity .6s ease';
       canvas.style.opacity='0';
       hint.classList.add('done');
-      setTimeout(()=>canvas.style.display='none',650);
+      setTimeout(()=>{canvas.style.display='none';hint.style.display='none';},650);
     }
   }
 
-  function startScratch(e){scratching=true;hint.classList.add('done');scratch(e);}
+  function startScratch(e){scratching=true;scratch(e);}
   canvas.addEventListener('mousedown', startScratch);
   canvas.addEventListener('mousemove', scratch);
   canvas.addEventListener('mouseup',   ()=>scratching=false);
