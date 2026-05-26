@@ -358,7 +358,10 @@ section{padding:7rem 2rem;max-width:900px;margin:0 auto;position:relative;z-inde
   display:flex;align-items:center;justify-content:center;gap:.9rem;
   font-size:10px;letter-spacing:.45em;text-transform:uppercase;
   color:#3a6a3a;margin-bottom:1.2rem;font-weight:500;
+  flex-wrap:wrap;row-gap:.35rem;
 }
+.sl-part{white-space:nowrap}
+.sl-sep{white-space:nowrap}
 .section-label::before,.section-label::after{
   content:'';display:block;width:36px;height:1px;flex-shrink:0;
   background:linear-gradient(90deg,transparent,var(--gold));
@@ -889,7 +892,7 @@ body.page-open{background:#b8cca8}
 
 <!-- ════════ STORY ════════ -->
 <section id="story">
-  <span class="section-label reveal">আমন্ত্রণ · A Letter from the Family</span>
+  <span class="section-label reveal"><span class="sl-part">আমন্ত্রণ</span><span class="sl-sep"> · </span><span class="sl-part">A Letter from the Family</span></span>
   <h2 class="section-title reveal">Our son has found<br><em>his forever</em></h2>
   <div class="heading-ornament reveal"><div class="heading-ornament-diamond"></div></div>
   <p class="story-text reveal">
@@ -935,7 +938,7 @@ body.page-open{background:#b8cca8}
 
 <!-- ════════ DETAILS ════════ -->
 <section id="details">
-  <span class="section-label reveal">অনুষ্ঠানের বিবরণ · Event Details</span>
+  <span class="section-label reveal"><span class="sl-part">অনুষ্ঠানের বিবরণ</span><span class="sl-sep"> · </span><span class="sl-part">Event Details</span></span>
   <h2 class="section-title reveal">An evening to<br><em>remember</em></h2>
   <div class="heading-ornament reveal"><div class="heading-ornament-diamond"></div></div>
   <div class="details-grid">
@@ -1027,7 +1030,7 @@ body.page-open{background:#b8cca8}
 <!-- ════════ BLESSINGS ════════ -->
 <section id="blessings" style="text-align:center;padding:5rem 2rem;max-width:700px;margin:0 auto;">
   <div class="div-ornament reveal" style="margin-bottom:3rem;"></div>
-  <span class="section-label reveal">আশীর্বাদ · From Our Hearts</span>
+  <span class="section-label reveal"><span class="sl-part">আশীর্বাদ</span><span class="sl-sep"> · </span><span class="sl-part">From Our Hearts</span></span>
   <p class="blessings-quote reveal">
     Every celebration is made richer<br>
     <em>by the people who show up for it.</em>
@@ -1247,10 +1250,11 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     }
   }
 
-  canvas.addEventListener('mousedown', e=>{scratching=true;scratch(e);});
+  function startScratch(e){scratching=true;hint.classList.add('done');scratch(e);}
+  canvas.addEventListener('mousedown', startScratch);
   canvas.addEventListener('mousemove', scratch);
   canvas.addEventListener('mouseup',   ()=>scratching=false);
-  canvas.addEventListener('touchstart',e=>{scratching=true;scratch(e);},{passive:true});
+  canvas.addEventListener('touchstart',e=>{startScratch(e);},{passive:true});
   canvas.addEventListener('touchmove', e=>{e.preventDefault();scratch(e);},{passive:false});
   canvas.addEventListener('touchend',  ()=>scratching=false);
 })();
