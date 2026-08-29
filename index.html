@@ -40,6 +40,7 @@ img,video{max-width:100%;height:auto;display:block}
   display:flex;align-items:center;justify-content:center;
   background:radial-gradient(ellipse 80% 80% at 50% 50%, #3a5a3a 0%, #1a2a1a 70%);
   transition:opacity .8s ease;
+  overflow-y:auto;padding:2rem 0;
 }
 #envelope-screen.hidden{opacity:0;pointer-events:none}
 
@@ -276,6 +277,15 @@ img,video{max-width:100%;height:auto;display:block}
   .hero-corner.br{bottom:14px;right:14px}
 }
 
+@media(max-width:480px){
+  .hero-side{width:26px}
+  .hero-side-svg{transform:scale(.55);transform-origin:center}
+  .hero-side-dot{display:none}
+}
+@media(max-width:380px){
+  .hero-side{display:none}
+}
+
 /* hero animations */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes softGlow{
@@ -335,15 +345,29 @@ img,video{max-width:100%;height:auto;display:block}
   animation:fadeUp 1s ease 1.1s both, shimmerLine 4s linear 2s infinite;
 }
 .hero-ornament::before{
-  content:'✦';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  color:var(--gold);font-size:9px;background:#b8cca8;padding:0 8px;
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:#b8cca8;padding:0 10px;
 }
+.hero-ornament-icon{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:#b8cca8;padding:0 10px;display:flex;align-items:center;justify-content:center;
+}
+.hero-ornament-icon svg{display:block;animation:omPulse 4s ease-in-out infinite}
 
 .hero-date{
   position:relative;z-index:3;
   font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;
   letter-spacing:.3em;color:#3a2a08;
   opacity:0;animation:fadeUp 1s ease 1.3s both, ornamentGlow 4s ease-in-out 2.5s infinite;
+}
+
+@media(max-width:480px){
+  #hero{padding:2.5rem 1.2rem}
+  .hero-eyebrow{letter-spacing:.22em;font-size:9px;line-height:1.8}
+  .hero-parents{letter-spacing:.18em;font-size:9px}
+  .hero-names{font-size:clamp(3rem,15vw,4rem)}
+  .hero-date{letter-spacing:.18em;font-size:.95rem}
+  .hero-ornament{width:140px}
 }
 
 /* ── SECTION SYSTEM ── */
@@ -353,15 +377,16 @@ img,video{max-width:100%;height:auto;display:block}
 }
 section{padding:7rem 2rem;max-width:900px;margin:0 auto;position:relative;z-index:2}
 #hero{padding:3rem 2rem;max-width:100%;margin:0}
+@media(max-width:600px){
+  section{padding:4rem 1.3rem}
+  #countdown,#map-section{padding:3.5rem 1.3rem}
+}
 
 .section-label{
   display:flex;align-items:center;justify-content:center;gap:.9rem;
   font-size:10px;letter-spacing:.45em;text-transform:uppercase;
   color:#3a6a3a;margin-bottom:1.2rem;font-weight:500;
-  flex-wrap:wrap;row-gap:.35rem;
 }
-.sl-part{white-space:nowrap}
-.sl-sep{white-space:nowrap}
 .section-label::before,.section-label::after{
   content:'';display:block;width:36px;height:1px;flex-shrink:0;
   background:linear-gradient(90deg,transparent,var(--gold));
@@ -393,100 +418,44 @@ section{padding:7rem 2rem;max-width:900px;margin:0 auto;position:relative;z-inde
 }
 .story-detail{font-size:.78rem;letter-spacing:.25em;color:#5a4a2a;text-transform:uppercase;font-weight:500}
 
-/* ── CAROUSEL ── */
-#photos{padding:3rem 0;max-width:100%;margin:0 auto;position:relative;z-index:2}
-#photos .section-inner{max-width:900px;margin:0 auto;padding:0 2rem}
-.carousel-wrapper{position:relative;margin-top:3rem;user-select:none}
-.carousel-track-outer{overflow:hidden;padding:0 8%}
-@media(max-width:640px){.carousel-track-outer{padding:0 5%}}
-.carousel-track{display:flex;gap:16px;transition:transform .55s cubic-bezier(.4,0,.2,1);will-change:transform}
-.carousel-slide{
-  min-width:100%;max-height:75vh;min-height:260px;
-  position:relative;display:flex;align-items:center;justify-content:center;
-  overflow:hidden;border-radius:24px;
-  border:1px solid rgba(100,140,80,.25);flex-shrink:0;
-  opacity:.38;transform:scale(.93);
-  transition:opacity .5s ease,transform .5s ease,border-color .5s ease,box-shadow .5s ease;
-  box-shadow:0 8px 40px rgba(0,0,0,.2);
-}
-.carousel-slide.active{
-  opacity:1;transform:scale(1);
-  border-color:rgba(200,148,26,.4);
-  box-shadow:0 16px 60px rgba(100,140,80,.2);
-}
-.carousel-slide img{
-  width:100%;height:100%;object-fit:contain;object-position:center;display:block;
-  background:rgba(230,240,225,.8);border-radius:24px;
-}
-.carousel-placeholder{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:1rem;width:100%;min-height:360px;
-  background:linear-gradient(145deg,rgba(160,190,140,.45),rgba(140,170,115,.25));
-  border-radius:24px;
-}
-.carousel-placeholder-icon{
-  width:56px;height:56px;border:1px solid rgba(200,148,26,.4);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  color:rgba(120,80,10,.65);font-size:1.4rem;
-}
-.carousel-placeholder-text{
-  font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;
-  color:rgba(30,60,20,.7);text-align:center;line-height:1.7;
-}
-.carousel-caption{
-  position:absolute;bottom:0;left:0;right:0;padding:3rem 1.5rem 1.4rem;
-  background:linear-gradient(0deg,rgba(20,40,20,.7) 0%,transparent 100%);
-  font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;
-  color:rgba(240,250,235,.85);text-align:center;letter-spacing:.06em;
-  z-index:2;opacity:0;transition:opacity .5s ease;border-radius:0 0 24px 24px;
-}
-.carousel-slide.active .carousel-caption{opacity:1}
-.carousel-slide::after{
-  content:'';position:absolute;inset:0;background:rgba(20,40,20,.3);
-  transition:opacity .5s ease;pointer-events:none;z-index:1;border-radius:24px;
-}
-.carousel-slide.active::after{opacity:0}
-.carousel-btn{
-  position:absolute;top:50%;transform:translateY(-50%);
-  width:42px;height:42px;background:rgba(210,228,195,.9);
-  border:1px solid rgba(200,148,26,.4);border-radius:50%;
-  color:var(--gold-dark);font-size:.9rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;z-index:10;
-  transition:background .3s,border-color .3s,opacity .3s;
-  backdrop-filter:blur(6px);
-}
-.carousel-btn:hover{background:rgba(200,148,26,.2);border-color:var(--gold)}
-.carousel-btn.prev{left:2%}.carousel-btn.next{right:2%}
-.carousel-btn.hidden{opacity:0;pointer-events:none}
-.carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:1.8rem}
-.carousel-dot{
-  width:6px;height:6px;border-radius:50%;background:rgba(200,148,26,.25);
-  cursor:pointer;transition:background .3s,width .3s;border:none;
-}
-.carousel-dot.active{background:var(--gold);width:24px;border-radius:3px}
-.carousel-counter{text-align:center;margin-top:.7rem;font-size:10px;letter-spacing:.35em;color:var(--taupe);text-transform:uppercase}
-
 /* ── DETAILS CARDS ── */
-.details-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:3rem;justify-items:center}
-.details-grid .detail-card{width:100%;text-align:center}
+.details-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,240px));justify-content:center;gap:1.8rem;margin-top:3rem;max-width:600px;margin-left:auto;margin-right:auto}
 .detail-card{
   background:linear-gradient(145deg,rgba(185,215,165,.75) 0%,rgba(160,195,138,.5) 100%);
+  backdrop-filter:blur(10px);
   border:1px solid rgba(200,148,26,.25);border-radius:20px;
   padding:2.2rem 1.8rem 2rem;text-align:center;position:relative;overflow:hidden;
-  transition:transform .35s ease,box-shadow .35s ease;
-  box-shadow:0 4px 24px rgba(30,60,15,.15),inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .4s cubic-bezier(.2,.7,.3,1),box-shadow .4s ease,border-color .4s ease;
 }
 .detail-card::before{
   content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:20px 20px 0 0;
   background:linear-gradient(90deg,var(--gold),var(--gold-pale),var(--gold));
 }
-.detail-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(100,140,60,.2)}
+.detail-card:hover{transform:translateY(-8px) scale(1.015);box-shadow:0 16px 46px rgba(100,140,60,.25);border-color:rgba(200,148,26,.5)}
+.detail-icon{transition:transform .4s ease}
+.detail-card:hover .detail-icon{transform:scale(1.08) rotate(-4deg)}
 .detail-icon{width:52px;height:52px;margin:0 auto 1.4rem;border-radius:50%;
   background:linear-gradient(135deg,rgba(160,190,140,.7),rgba(140,170,115,.45));
   border:1px solid rgba(200,148,26,.3);display:flex;align-items:center;justify-content:center}
 .detail-label{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:#3a5a3a;display:block;margin-bottom:.8rem;font-weight:500}
 .detail-value{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#1a3a1a;line-height:1.15;display:block;margin-bottom:.6rem;letter-spacing:.02em}
 .detail-sub{font-size:.72rem;color:#7a4a08;letter-spacing:.12em;text-transform:uppercase;font-weight:500}
+.detail-divider-dot{width:24px;height:1px;background:rgba(200,148,26,.4);margin:.75rem auto;position:relative}
+.detail-divider-dot::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:4px;height:4px;border-radius:50%;background:#C8941A}
+
+/* ── SCRATCH CARD (date reveal) ── */
+.scratch-card{
+  position:relative;border-radius:14px;overflow:hidden;cursor:pointer;
+  margin-top:.3rem;
+  box-shadow:0 5px 16px rgba(120,80,10,.28),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.scratch-content{padding:.15rem 0 .05rem}
+.scratch-canvas{
+  position:absolute;inset:0;width:100%;height:100%;border-radius:14px;
+  touch-action:none;transition:opacity .8s ease,transform .8s ease;
+}
+.scratch-card.revealed .scratch-canvas{opacity:0;transform:scale(1.06);pointer-events:none}
+.scratch-card.revealed{cursor:default;box-shadow:none}
 
 /* ── COUNTDOWN ── */
 #countdown{text-align:center;padding:5rem 2rem;position:relative;overflow:hidden}
@@ -495,11 +464,12 @@ section{padding:7rem 2rem;max-width:900px;margin:0 auto;position:relative;z-inde
 .countdown-block{
   flex:1;padding:2rem 1rem;
   background:linear-gradient(145deg,rgba(180,210,155,.75),rgba(155,190,128,.5));
+  backdrop-filter:blur(10px);
   border:1px solid rgba(200,148,26,.25);border-radius:16px;text-align:center;
-  transition:background .3s,transform .3s;
+  transition:background .35s ease,transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s ease,border-color .35s ease;
   box-shadow:0 4px 20px rgba(30,60,15,.12);
 }
-.countdown-block:hover{transform:translateY(-3px)}
+.countdown-block:hover{transform:translateY(-5px);box-shadow:0 12px 34px rgba(100,140,60,.22);border-color:rgba(200,148,26,.5)}
 .countdown-num{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:300;color:#2a5a2a;line-height:1;display:block}
 .countdown-label{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#5a4a2a;display:block;margin-top:.6rem;font-weight:500}
 
@@ -514,6 +484,7 @@ section{padding:7rem 2rem;max-width:900px;margin:0 auto;position:relative;z-inde
 }
 .map-wrapper:hover{box-shadow:0 12px 50px rgba(30,60,20,.3)}
 .map-wrapper iframe{width:100%;height:400px;border:none;display:block;filter:sepia(.3) hue-rotate(60deg) saturate(.9) brightness(.85);pointer-events:none}
+@media(max-width:600px){.map-wrapper iframe{height:280px}}
 .map-overlay{position:absolute;inset:0;background:transparent;display:flex;align-items:center;justify-content:center;transition:background .3s}
 .map-overlay:hover{background:rgba(60,90,40,.08)}
 .map-cta{
@@ -532,7 +503,7 @@ section{padding:7rem 2rem;max-width:900px;margin:0 auto;position:relative;z-inde
 .blessings-bengali{font-family:'Tiro Bangla',serif;font-size:1rem;color:#3a5a3a;line-height:1.8;margin-top:.5rem}
 
 /* ── FOOTER ── */
-footer{text-align:center;padding:3rem 2rem 6rem;border-top:1px solid rgba(200,148,26,.3);position:relative;z-index:2}
+footer{text-align:center;padding:2.6rem 2rem 6rem;border-top:1px solid rgba(200,148,26,.3);position:relative;z-index:2}
 .footer-names{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;font-style:italic;color:#2a5a2a;letter-spacing:.05em}
 .footer-bengali{font-family:'Tiro Bangla',serif;font-size:1rem;color:#3a5a3a;margin-top:.5rem}
 .footer-date{font-size:11px;letter-spacing:.4em;color:#5a4a2a;text-transform:uppercase;margin-top:.8rem;font-weight:500}
@@ -554,6 +525,8 @@ footer{text-align:center;padding:3rem 2rem 6rem;border-top:1px solid rgba(200,14
 /* ── MUSIC PLAYER ── */
 #music-player{
   position:fixed;bottom:1.5rem;right:1.5rem;z-index:99999;
+  bottom:calc(1.5rem + env(safe-area-inset-bottom));
+  right:calc(1.5rem + env(safe-area-inset-right));
   display:flex;align-items:center;gap:10px;
   transform:translateZ(0);will-change:transform;
 }
@@ -583,30 +556,12 @@ footer{text-align:center;padding:3rem 2rem 6rem;border-top:1px solid rgba(200,14
 /* body bg after envelope opens */
 body.page-open{background:#b8cca8}
 
-/* ── SCRATCH TO REVEAL ── */
-.scratch-wrap{
-  position:relative;display:flex;flex-direction:column;align-items:center;
-  width:180px;margin:0 auto;
-}
-.scratch-answer{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  width:180px;height:72px;
-  font-family:'Cormorant Garamond',serif;
-}
-#scratchCanvas{
-  position:absolute;top:0;left:0;
-  border-radius:10px;cursor:crosshair;
-  touch-action:none;
-}
-.scratch-hint{
-  font-size:9px;letter-spacing:.35em;text-transform:uppercase;
-  color:var(--gold-dark);margin-top:.5rem;
-  animation:blink 2s ease-in-out infinite;
-  transition:opacity .4s;
-}
-.scratch-hint.done{opacity:0;pointer-events:none;height:0;margin:0;overflow:hidden}
-
 @media(max-width:640px){.countdown-grid{gap:8px}.detail-card{padding:1.8rem 1.2rem}}
+@media(max-width:400px){
+  .countdown-grid{flex-wrap:wrap;gap:10px}
+  .countdown-block{flex:1 1 calc(50% - 10px);min-width:calc(50% - 10px);padding:1.4rem .6rem}
+  .countdown-num{font-size:clamp(2rem,10vw,2.8rem)}
+}
 </style>
 </head>
 <body>
@@ -624,7 +579,7 @@ body.page-open{background:#b8cca8}
     <!-- Card that flies out -->
     <div class="env-card" id="envCard">
       <div class="env-card-names">Debangan &amp; Shreya</div>
-      <div class="env-card-date">Reception · 28 November 2026</div>
+      <div class="env-card-date">Reception · You're Invited</div>
     </div>
 
     <!-- Envelope body -->
@@ -875,7 +830,7 @@ body.page-open{background:#b8cca8}
 
   <p class="hero-eyebrow"><span class="om-pulse">🕉</span>&nbsp; With the blessings of Lord Shiva &amp; Goddess Parvati &nbsp;<span class="om-pulse" style="animation-delay:1.75s;">🕉</span></p>
 
-  <p class="hero-parents">Kabita Deb &amp; Debasish Deb invite you</p>
+  <p class="hero-parents">Debasish Deb &amp; Kabita Deb invite you</p>
 
   <h1 class="hero-names">
     Debangan<br>
@@ -884,15 +839,24 @@ body.page-open{background:#b8cca8}
   </h1>
 
   <p class="hero-bengali">দেবাঙ্গন ও শ্রেয়া</p>
-  <div class="hero-ornament"></div>
-  <p class="hero-date">Reception · Saturday · 28 November 2026</p>
+  <div class="hero-ornament">
+    <span class="hero-ornament-icon" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 30c-1-6-1-11 0-17" stroke="#C8941A" stroke-width="1" opacity=".7" stroke-linecap="round"/>
+        <path d="M16 13C10 10 7 5 8 1c5 1 9 5 9 10 5-3 9-8 8-11 4 2 6 7 4 11-2 3-6 4-9 3 3 3 4 6 3 9-3 0-6-2-7-6z" stroke="#C8941A" stroke-width="1" opacity=".85" stroke-linejoin="round"/>
+        <circle cx="16" cy="10.5" r="2.6" fill="none" stroke="#B22222" stroke-width=".9" opacity=".8"/>
+        <circle cx="16" cy="10.5" r="1" fill="#C8941A" opacity=".8"/>
+      </svg>
+    </span>
+  </div>
+  <p class="hero-date">You're Invited · Scroll for the Date ↓</p>
 </section>
 
 <div class="section-divider"></div>
 
 <!-- ════════ STORY ════════ -->
 <section id="story">
-  <span class="section-label reveal"><span class="sl-part">আমন্ত্রণ</span><span class="sl-sep"> · </span><span class="sl-part">A Letter from the Family</span></span>
+  <span class="section-label reveal">আমন্ত্রণ · A Letter from the Family</span>
   <h2 class="section-title reveal">Our son has found<br><em>his forever</em></h2>
   <div class="heading-ornament reveal"><div class="heading-ornament-diamond"></div></div>
   <p class="story-text reveal">
@@ -905,89 +869,38 @@ body.page-open{background:#b8cca8}
     <em style="font-style:italic;color:#7a4a08">your presence, your laughter, and your blessings.</em>
     Come, sit with us, and help us celebrate the beginning of their beautiful life together.
   </p>
-  <p class="story-detail reveal" style="margin-top:1rem;">— Kabita Deb &amp; Debasish Deb</p>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ════════ PHOTOS ════════ -->
-<section id="photos">
-  <div class="section-inner">
-    <span class="section-label reveal">মুহূর্ত · Moments</span>
-    <h2 class="section-title reveal">Debangan &amp; Shreya,<br><em>captured</em></h2>
-    <div class="heading-ornament reveal"><div class="heading-ornament-diamond"></div></div>
-  </div>
-  <div class="carousel-wrapper reveal">
-    <div class="carousel-track-outer" id="carouselOuter">
-      <div class="carousel-track" id="carouselTrack">
-        <div class="carousel-slide"><div class="carousel-placeholder"><div class="carousel-placeholder-icon">♡</div><p class="carousel-placeholder-text">Your favourite portrait together</p></div><div class="carousel-caption">Together</div></div>
-        <div class="carousel-slide"><div class="carousel-placeholder"><div class="carousel-placeholder-icon">◎</div><p class="carousel-placeholder-text">Engagement photo</p></div><div class="carousel-caption">Engaged</div></div>
-        <div class="carousel-slide"><div class="carousel-placeholder"><div class="carousel-placeholder-icon">✦</div><p class="carousel-placeholder-text">A candid moment</p></div><div class="carousel-caption">Candid</div></div>
-        <div class="carousel-slide"><div class="carousel-placeholder"><div class="carousel-placeholder-icon">◇</div><p class="carousel-placeholder-text">A travel memory</p></div><div class="carousel-caption">Adventures</div></div>
-        <div class="carousel-slide"><div class="carousel-placeholder"><div class="carousel-placeholder-icon">❋</div><p class="carousel-placeholder-text">With family</p></div><div class="carousel-caption">Family</div></div>
-      </div>
-    </div>
-    <button class="carousel-btn prev hidden" id="carouselPrev">&#8592;</button>
-    <button class="carousel-btn next" id="carouselNext">&#8594;</button>
-    <div class="carousel-dots" id="carouselDots"></div>
-    <p class="carousel-counter" id="carouselCounter">1 / 5</p>
-  </div>
+  <p class="story-detail reveal" style="margin-top:1rem;">— Debasish Deb &amp; Kabita Deb</p>
 </section>
 
 <div class="section-divider"></div>
 
 <!-- ════════ DETAILS ════════ -->
 <section id="details">
-  <span class="section-label reveal"><span class="sl-part">অনুষ্ঠানের বিবরণ</span><span class="sl-sep"> · </span><span class="sl-part">Event Details</span></span>
+  <span class="section-label reveal">অনুষ্ঠানের বিবরণ · Event Details</span>
   <h2 class="section-title reveal">An evening to<br><em>remember</em></h2>
   <div class="heading-ornament reveal"><div class="heading-ornament-diamond"></div></div>
   <div class="details-grid">
-    <div class="detail-card reveal">
+    <div class="detail-card reveal" style="max-width:290px;margin:0 auto;">
       <div class="detail-icon">
         <svg viewBox="0 0 48 48" width="28" height="28" fill="none">
-          <polygon points="24,6 42,24 24,42 6,24" stroke="#C8941A" stroke-width="1.2" opacity=".9"/>
-          <polygon points="24,13 35,24 24,35 13,24" stroke="#C8941A" stroke-width=".7" opacity=".55"/>
-          <circle cx="24" cy="24" r="2.5" fill="#C8941A" opacity=".8"/>
+          <circle cx="24" cy="24" r="15" stroke="#C8941A" stroke-width="1.2" opacity=".9"/>
+          <line x1="24" y1="11" x2="24" y2="15" stroke="#C8941A" stroke-width="1.1" opacity=".6"/>
+          <line x1="37" y1="24" x2="33" y2="24" stroke="#C8941A" stroke-width="1.1" opacity=".6"/>
+          <line x1="11" y1="24" x2="15" y2="24" stroke="#C8941A" stroke-width="1.1" opacity=".6"/>
+          <line x1="24" y1="24" x2="24" y2="17" stroke="#C8941A" stroke-width="1.3" stroke-linecap="round" opacity=".95"/>
+          <line x1="24" y1="24" x2="30" y2="19.5" stroke="#C8941A" stroke-width="1.3" stroke-linecap="round" opacity=".95"/>
+          <circle cx="24" cy="24" r="2" fill="#C8941A" opacity=".85"/>
         </svg>
       </div>
-      <span class="detail-label">Date</span>
-      <span class="detail-value">28 Nov 2026</span>
-      <span class="detail-sub">Saturday · শনিবার</span>
-    </div>
-    <div class="detail-card reveal">
-      <div class="detail-icon">
-        <svg viewBox="0 0 48 48" width="28" height="28" fill="none">
-          <circle cx="24" cy="24" r="14" stroke="#C8941A" stroke-width="1.2" opacity=".9"/>
-          <line x1="24" y1="10" x2="24" y2="14" stroke="#C8941A" stroke-width="1.2" opacity=".7"/>
-          <line x1="38" y1="24" x2="34" y2="24" stroke="#C8941A" stroke-width="1.2" opacity=".7"/>
-          <line x1="10" y1="24" x2="14" y2="24" stroke="#C8941A" stroke-width="1.2" opacity=".7"/>
-          <line x1="24" y1="24" x2="32" y2="18" stroke="#C8941A" stroke-width="1.4" stroke-linecap="round" opacity=".95"/>
-          <circle cx="24" cy="24" r="2" fill="#C8941A" opacity=".8"/>
-        </svg>
-      </div>
-      <span class="detail-label">Reception begins</span>
-      <span class="detail-value">7:00 PM</span>
-      <span class="detail-sub">Doors open · 6:30 PM</span>
-    </div>
-    <div class="detail-card reveal">
-      <div class="detail-icon">
-        <svg viewBox="0 0 48 48" width="28" height="28" fill="none">
-          <line x1="24" y1="6" x2="24" y2="42" stroke="#C8941A" stroke-width=".8" opacity=".4"/>
-          <line x1="6" y1="24" x2="42" y2="24" stroke="#C8941A" stroke-width=".8" opacity=".4"/>
-          <line x1="9.5" y1="9.5" x2="38.5" y2="38.5" stroke="#C8941A" stroke-width=".8" opacity=".4"/>
-          <line x1="38.5" y1="9.5" x2="9.5" y2="38.5" stroke="#C8941A" stroke-width=".8" opacity=".4"/>
-          <polygon points="24,10 26.4,21.6 38,24 26.4,26.4 24,38 21.6,26.4 10,24 21.6,21.6" stroke="#C8941A" stroke-width="1.1" opacity=".9"/>
-          <circle cx="24" cy="24" r="2.5" fill="#C8941A" opacity=".8"/>
-        </svg>
-      </div>
-      <span class="detail-label">Dress code</span>
-      <div class="scratch-wrap" id="scratchWrap">
-        <div class="scratch-answer" id="scratchAnswer">
-          <span class="detail-value" style="font-size:1.6rem;">Party Wear</span>
-          <span class="detail-sub" style="margin-top:.4rem;">Glam up · Look your best</span>
+      <span class="detail-label">Date &amp; Time</span>
+      <div class="scratch-card" id="dateScratchCard">
+        <div class="scratch-content">
+          <span class="detail-value">28 Nov 2026</span>
+          <span class="detail-sub">Saturday · শনিবার</span>
+          <div class="detail-divider-dot" aria-hidden="true"></div>
+          <span class="detail-value" style="font-size:1.4rem;margin-bottom:0;">7:00 PM</span>
         </div>
-        <canvas id="scratchCanvas" width="180" height="72"></canvas>
-        <p class="scratch-hint" id="scratchHint">✦ scratch to reveal ✦</p>
+        <canvas class="scratch-canvas" aria-hidden="true"></canvas>
       </div>
     </div>
   </div>
@@ -1028,28 +941,29 @@ body.page-open{background:#b8cca8}
 </section>
 
 <!-- ════════ BLESSINGS ════════ -->
-<section id="blessings" style="text-align:center;padding:5rem 2rem;max-width:700px;margin:0 auto;">
+<section id="blessings" style="text-align:center;padding:5rem 2rem 3.2rem;max-width:700px;margin:0 auto;">
   <div class="div-ornament reveal" style="margin-bottom:3rem;"></div>
-  <span class="section-label reveal"><span class="sl-part">আশীর্বাদ</span><span class="sl-sep"> · </span><span class="sl-part">From Our Hearts</span></span>
+  <span class="section-label reveal">আশীর্বাদ · From Our Hearts</span>
   <p class="blessings-quote reveal">
     Every celebration is made richer<br>
     <em>by the people who show up for it.</em>
   </p>
   <p class="blessings-body reveal">
     As parents, there is no greater joy than seeing your child step into
-    a life filled with love. We, <strong style="color:#2a5a2a;font-weight:600;">Kabita Deb</strong> and
-    <strong style="color:#2a5a2a;font-weight:600;">Debasish Deb</strong>, humbly
+    a life filled with love. We, <strong style="color:#2a5a2a;font-weight:600;">Debasish Deb</strong> and
+    <strong style="color:#2a5a2a;font-weight:600;">Kabita Deb</strong>, humbly
     request you to grace this celebration with your warmth and blessings.
     Your being there — beside us — is the greatest gift you can give our family.
   </p>
   <p class="blessings-bengali reveal">আপনাদের স্নেহ ও আশীর্বাদ আমাদের কাছে সবচেয়ে মূল্যবান।</p>
-  <p class="blessings-bengali reveal" style="margin-top:.6rem;font-size:.9rem;color:#3a5a3a;">কবিতা দেব ও দেবাশীষ দেব</p>
-  <div class="div-ornament reveal" style="margin-top:3rem;"></div>
+  <p class="blessings-bengali reveal" style="margin-top:.6rem;font-size:.9rem;color:#3a5a3a;">দেবাশীষ দেব ও কবিতা দেব</p>
+  <div class="div-ornament reveal" style="margin-top:2rem;"></div>
 </section>
+
+<div class="section-divider"></div>
 
 <!-- ════════ FOOTER ════════ -->
 <footer>
-  <div class="div-ornament" style="margin-bottom:2.5rem;"></div>
   <p class="footer-names">Debangan &amp; Shreya</p>
   <p class="footer-bengali">দেবাঙ্গন ও শ্রেয়া</p>
   <p style="font-size:11px;letter-spacing:.25em;color:#5a4a2a;margin-top:.4rem;font-family:'Jost',sans-serif;font-weight:500;">Hosted by the Deb Family</p>
@@ -1122,6 +1036,7 @@ function openEnvelope(){
     screen.classList.add('hidden');
     mainPg.classList.add('visible');
     document.body.classList.add('page-open');
+    window.dispatchEvent(new Event('resize'));
   }, 2000);
 }
 
@@ -1156,107 +1071,168 @@ updateCountdown();setInterval(updateCountdown,1000);
 const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.05,rootMargin:'0px 0px -20px 0px'});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// ── Carousel
+// ── Scratch card (date reveal)
 (function(){
-  const track=document.getElementById('carouselTrack');
-  const outer=document.getElementById('carouselOuter');
-  const btnP=document.getElementById('carouselPrev');
-  const btnN=document.getElementById('carouselNext');
-  const dotsW=document.getElementById('carouselDots');
-  const ctr=document.getElementById('carouselCounter');
-  const slides=Array.from(track.querySelectorAll('.carousel-slide'));
-  let cur=0,sX=0,isDrag=false,dD=0,sY=0,axLock=false,isH=false;
-  slides.forEach((_,i)=>{const d=document.createElement('button');d.className='carousel-dot'+(i===0?' active':'');d.addEventListener('click',()=>goTo(i));dotsW.appendChild(d);});
-  function sw(){const s=getComputedStyle(outer);return outer.clientWidth-parseFloat(s.paddingLeft)-parseFloat(s.paddingRight);}
-  function off(i){return i*(sw()+16);}
-  function ui(anim){
-    track.style.transition=anim?'transform .55s cubic-bezier(.4,0,.2,1)':'none';
-    track.style.transform='translateX(-'+off(cur)+'px)';
-    slides.forEach((s,i)=>s.classList.toggle('active',i===cur));
-    dotsW.querySelectorAll('.carousel-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
-    ctr.textContent=(cur+1)+' / '+slides.length;
-    btnP.classList.toggle('hidden',cur===0);
-    btnN.classList.toggle('hidden',cur===slides.length-1);
-  }
-  function goTo(i){cur=Math.max(0,Math.min(slides.length-1,i));ui(true);}
-  btnP.addEventListener('click',()=>goTo(cur-1));
-  btnN.addEventListener('click',()=>goTo(cur+1));
-  document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(cur-1);if(e.key==='ArrowRight')goTo(cur+1);});
-  outer.addEventListener('touchstart',e=>{sX=e.touches[0].clientX;sY=e.touches[0].clientY;isDrag=true;dD=0;axLock=false;isH=false;},{passive:true});
-  outer.addEventListener('touchmove',e=>{if(!isDrag)return;const dx=e.touches[0].clientX-sX,dy=e.touches[0].clientY-sY;if(!axLock&&(Math.abs(dx)>6||Math.abs(dy)>6)){axLock=true;isH=Math.abs(dx)>Math.abs(dy);}if(!axLock||!isH)return;e.preventDefault();dD=dx;track.style.transition='none';track.style.transform='translateX('+(-off(cur)+dD)+'px)';},{passive:false});
-  outer.addEventListener('touchend',()=>{if(!isDrag)return;isDrag=false;if(isH){if(dD<-50)goTo(cur+1);else if(dD>50)goTo(cur-1);else ui(true);}dD=0;axLock=false;isH=false;});
-  outer.addEventListener('mousedown',e=>{sX=e.clientX;isDrag=true;dD=0;track.style.transition='none';});
-  document.addEventListener('mousemove',e=>{if(!isDrag)return;dD=e.clientX-sX;track.style.transform='translateX('+(-off(cur)+dD)+'px)';});
-  document.addEventListener('mouseup',()=>{if(!isDrag)return;isDrag=false;if(dD<-60)goTo(cur+1);else if(dD>60)goTo(cur-1);else ui(true);dD=0;});
-  window.addEventListener('resize',()=>ui(false));
-  slides[0].classList.add('active');
-  ui(false);
-})();
+  const card=document.getElementById('dateScratchCard');
+  const canvas=card?card.querySelector('.scratch-canvas'):null;
+  if(!card||!canvas) return;
+  const ctx=canvas.getContext('2d');
+  let revealed=false,drawing=false,lastX=0,lastY=0,moveCount=0;
 
-// ── Scratch to Reveal
-(function(){
-  const canvas = document.getElementById('scratchCanvas');
-  const ctx    = canvas.getContext('2d');
-  const hint   = document.getElementById('scratchHint');
-  let scratching = false;
-  let revealed   = false;
+  function paintFoil(w,h){
+    ctx.globalCompositeOperation='source-over';
+    ctx.clearRect(0,0,w,h);
 
-  // Draw the scratchable surface
-  function drawScratch(){
-    const g = ctx.createLinearGradient(0,0,180,72);
-    g.addColorStop(0,'#4a7a4a');
-    g.addColorStop(.5,'#5a8a5a');
-    g.addColorStop(1,'#3a6a3a');
-    ctx.fillStyle = g;
+    // rounded-rect clip so the foil edges are always crisp, matching the card radius
+    const r=Math.min(14,w/2,h/2);
+    ctx.save();
     ctx.beginPath();
-    ctx.roundRect(0,0,180,72,10);
-    ctx.fill();
+    ctx.moveTo(r,0);
+    ctx.arcTo(w,0,w,h,r);
+    ctx.arcTo(w,h,0,h,r);
+    ctx.arcTo(0,h,0,0,r);
+    ctx.arcTo(0,0,w,0,r);
+    ctx.closePath();
+    ctx.clip();
 
-    // Gold question mark overlay
-    ctx.fillStyle='rgba(200,148,26,0.18)';
-    ctx.beginPath();ctx.roundRect(0,0,180,72,10);ctx.fill();
+    // base foil — warm gold gradient matching the site palette
+    const grad=ctx.createLinearGradient(0,0,w,h);
+    grad.addColorStop(0,'#E9C468');
+    grad.addColorStop(.5,'#C8941A');
+    grad.addColorStop(1,'#996b10');
+    ctx.fillStyle=grad;
+    ctx.fillRect(0,0,w,h);
 
-    ctx.font='bold 32px Cormorant Garamond, serif';
-    ctx.fillStyle='rgba(200,148,26,0.55)';
-    ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText('?  Dress Code  ?',90,36);
+    // soft metallic sheen, top-left highlight
+    const rg=ctx.createRadialGradient(w*.28,h*.22,0,w*.28,h*.22,Math.max(w,h)*.85);
+    rg.addColorStop(0,'rgba(255,255,255,.28)');
+    rg.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=rg;
+    ctx.fillRect(0,0,w,h);
+
+    // fine, subtle diagonal texture (not candy-stripe bold)
+    ctx.globalAlpha=.06;
+    ctx.strokeStyle='#fff';
+    ctx.lineWidth=2;
+    for(let x=-h;x<w+h;x+=20){
+      ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x+h,h);ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+
+    // hairline foil edge
+    ctx.strokeStyle='rgba(255,255,255,.35)';
+    ctx.lineWidth=1;
+    ctx.strokeRect(1,1,w-2,h-2);
+
+    // drawn diamond-in-circle icon (avoids missing-glyph fallback issues)
+    const cx=w/2, cy=h*.34;
+    ctx.beginPath();
+    ctx.arc(cx,cy,8,0,Math.PI*2);
+    ctx.strokeStyle='rgba(255,255,255,.85)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(Math.PI/4);
+    ctx.strokeStyle='rgba(255,255,255,.9)';
+    ctx.lineWidth=1.1;
+    ctx.strokeRect(-2.8,-2.8,5.6,5.6);
+    ctx.restore();
+
+    // refined label
+    ctx.fillStyle='rgba(255,252,240,.96)';
+    ctx.font='500 9px Jost, sans-serif';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    if('letterSpacing' in ctx) ctx.letterSpacing='2.5px';
+    ctx.fillText('SCRATCH TO REVEAL', cx, h*.66);
+    if('letterSpacing' in ctx) ctx.letterSpacing='0px';
+
+    ctx.restore();
   }
-  drawScratch();
+
+  function sizeCanvas(){
+    if(revealed) return;
+    const rect=card.getBoundingClientRect();
+    if(rect.width<=0||rect.height<=0) return;
+    const dpr=window.devicePixelRatio||1;
+    canvas.width=rect.width*dpr;
+    canvas.height=rect.height*dpr;
+    canvas.style.width=rect.width+'px';
+    canvas.style.height=rect.height+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    paintFoil(rect.width,rect.height);
+  }
 
   function getPos(e){
-    const r=canvas.getBoundingClientRect();
-    if(e.touches) return {x:e.touches[0].clientX-r.left, y:e.touches[0].clientY-r.top};
-    return {x:e.clientX-r.left, y:e.clientY-r.top};
-  }
-  function scratch(e){
-    if(!scratching||revealed)return;
-    const {x,y}=getPos(e);
-    ctx.globalCompositeOperation='destination-out';
-    ctx.beginPath();
-    ctx.arc(x,y,22,0,Math.PI*2);
-    ctx.fill();
-    checkRevealed();
-  }
-  function checkRevealed(){
-    const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
-    let clear=0;
-    for(let i=3;i<data.length;i+=4) if(data[i]<128) clear++;
-    if(clear/( canvas.width*canvas.height)>.55 && !revealed){
-      revealed=true;
-      canvas.style.transition='opacity .6s ease';
-      canvas.style.opacity='0';
-      hint.classList.add('done');
-      setTimeout(()=>{canvas.style.display='none';hint.style.display='none';},650);
-    }
+    const rect=canvas.getBoundingClientRect();
+    const t=e.touches&&e.touches.length?e.touches[0]:e;
+    return{x:t.clientX-rect.left,y:t.clientY-rect.top};
   }
 
-  function startScratch(e){scratching=true;scratch(e);}
-  canvas.addEventListener('mousedown', startScratch);
-  canvas.addEventListener('mousemove', scratch);
-  canvas.addEventListener('mouseup',   ()=>scratching=false);
-  canvas.addEventListener('touchstart',e=>{startScratch(e);},{passive:true});
-  canvas.addEventListener('touchmove', e=>{e.preventDefault();scratch(e);},{passive:false});
-  canvas.addEventListener('touchend',  ()=>scratching=false);
+  function scratchAt(x,y){
+    ctx.globalCompositeOperation='destination-out';
+    ctx.beginPath();
+    ctx.arc(x,y,20,0,Math.PI*2);
+    ctx.fill();
+  }
+
+  function checkProgress(){
+    moveCount++;
+    if(moveCount%5!==0) return;
+    const rect=card.getBoundingClientRect();
+    const dpr=window.devicePixelRatio||1;
+    const w=Math.floor(rect.width*dpr),h=Math.floor(rect.height*dpr);
+    if(w<=0||h<=0) return;
+    let data;
+    try{ data=ctx.getImageData(0,0,w,h).data; }catch(err){ return; }
+    let cleared=0,sampled=0;
+    for(let i=3;i<data.length;i+=4*60){
+      sampled++;
+      if(data[i]<40) cleared++;
+    }
+    if(sampled && cleared/sampled>0.5) revealCard();
+  }
+
+  function revealCard(){
+    if(revealed) return;
+    revealed=true;
+    card.classList.add('revealed');
+  }
+
+  function pointerDown(e){
+    if(revealed) return;
+    drawing=true;
+    const p=getPos(e);
+    lastX=p.x;lastY=p.y;
+    scratchAt(p.x,p.y);
+    if(e.cancelable) e.preventDefault();
+  }
+  function pointerMove(e){
+    if(!drawing||revealed) return;
+    const p=getPos(e);
+    const dist=Math.hypot(p.x-lastX,p.y-lastY);
+    const steps=Math.max(1,Math.floor(dist/5));
+    for(let i=0;i<=steps;i++){
+      scratchAt(lastX+(p.x-lastX)*(i/steps), lastY+(p.y-lastY)*(i/steps));
+    }
+    lastX=p.x;lastY=p.y;
+    checkProgress();
+    if(e.cancelable) e.preventDefault();
+  }
+  function pointerUp(){ drawing=false; }
+
+  canvas.addEventListener('mousedown',pointerDown);
+  canvas.addEventListener('mousemove',pointerMove);
+  window.addEventListener('mouseup',pointerUp);
+  canvas.addEventListener('touchstart',pointerDown,{passive:false});
+  canvas.addEventListener('touchmove',pointerMove,{passive:false});
+  canvas.addEventListener('touchend',pointerUp);
+  canvas.addEventListener('dblclick',revealCard);
+
+  window.addEventListener('resize',()=>{ if(!revealed) sizeCanvas(); });
+  window.addEventListener('load',()=>requestAnimationFrame(()=>requestAnimationFrame(sizeCanvas)));
+  setTimeout(sizeCanvas,600);
 })();
 
 // ── Music
